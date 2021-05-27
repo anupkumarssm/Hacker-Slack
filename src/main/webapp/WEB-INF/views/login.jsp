@@ -12,6 +12,12 @@
 					<div class="card">
 						<div class="card-body">
 						<h4 align="center"><b>Hacker Slack</b></h4><hr>
+						
+						
+						<button id="loginBTN123">LOGIN BTN</button>
+						
+						
+						
 							<ul class="nav nav-pills textstyle">
 								<li class="nav-item"><a
 									class="nav-link active button bg-dark" data-toggle="pill"
@@ -28,16 +34,16 @@
 										<div class="form-group">
 											<label for="username" class=""><b>Username
 													(Mobile)</b></label> <input type="text" id="loginusername"
-												name="username" class="form-control mobile"
+												name="username" class="form-control mobile1"
 												placeholder="Enter Username (Mobile)" autocomplete="off"
 												required="">
 										</div>
 										<div class="form-group">
-											<input type="hidden" name="password" class="form-control"
+											<input type="text" name="password" class="form-control"
 												id="loginpassword">
 										</div>
 										<div align="center">
-											<input type="submit"
+											<input type="submit" id="idForm"
 												class="btn btn-sm btn-info form-control col-sm-6"
 												value="Sign in">
 										</div>
@@ -88,6 +94,50 @@
 		$(document)
 				.ready(
 						function() {
+							
+						/* 	$("#idForm1111").submit(function(e) {
+
+							    e.preventDefault(); // avoid to execute the actual submit of the form.
+
+							    var form = $(this);
+							    var url = form.attr('action');
+							    
+							    $.ajax({
+							           type: "POST",
+							           headers: {
+						                    'Content-Type': 'application/json'
+						                },
+							           url: url,
+							           data: form.serialize(), // serializes the form's elements.
+							           success: function(data)
+							           {
+							               alert(data); // show response from the php script.
+							           }
+							         });
+
+							    
+							}); */
+							
+							
+							
+							
+							
+							/* $("#loginBTN123") .click(function () {
+								alert("OK");
+								 
+									$.ajax({
+										  url:'/api/auth/signin',
+										  type:"POST",
+										  data:{username:'test',password:'test12345'},
+										  contentType:"application/json; charset=utf-8",
+										  dataType:"json",
+										  success: function(){
+											  alert("data : ")
+										  }
+										}) 
+							 });  */
+							
+							
 							$('.mobile').inputmask('999-999-9999');
 							$("#loginusername").keyup(function() {
 								$("#loginpassword").val($(this).val());

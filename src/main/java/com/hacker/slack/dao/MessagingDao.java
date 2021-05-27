@@ -72,6 +72,63 @@ public class MessagingDao {
 		}
 		return null;
 	}
+	
+	
+	public List<Map<String, Object>> getDirectMessages(String username, String toMobile) {
+		try {
+			String query = "SELECT * FROM direct_messages dm where  dm.from_username=? and dm.to_username=? or dm.from_username=? and dm.to_username=?";
+			List<Map<String, Object>> listResult= jdbcTemplate.queryForList(query, username, toMobile, toMobile, username);
+			
+			
+			String sql = "SELECT * FROM direct_messages dm where 	dm.from_username=? AND dm.to_username=? and flag=1";
+			List<Map<String, Object>> resultList = jdbcTemplate.queryForList(sql, toMobile,username);
+			 for(int i=0;i<resultList.size();i++) {
+				String updateQuery = "update direct_messages set flag=0 where id=? and flag=1";
+				jdbcTemplate.update(updateQuery, resultList.get(i).get("id").toString());
+				jdbcTemplate.update("update messages m set m.message_count=0 where m.username=? and m.to_username=?",username,toMobile);
+			}
+			return listResult;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<Map<String, Object>> getNewDirectMessages(String username, String toMobile) {
+		try {
+			String query = "SELECT * FROM direct_messages dm where  dm.from_username=? and dm.to_username=? or dm.from_username=? and dm.to_username=?";
+			return jdbcTemplate.queryForList(query, username, toMobile, toMobile, username);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	public List<Map<String, Object>> getLatestDirectMessage(String username, String tousername) {
+		try {
+			String query = "SELECT * FROM direct_messages dm where 	dm.from_username=? AND dm.to_username=? and flag=1";
+			List<Map<String, Object>> resultList = jdbcTemplate.queryForList(query, tousername,username);
+			 for(int i=0;i<resultList.size();i++) {
+				String updateQuery = "update direct_messages set flag=0 where id=? and flag=1";
+				jdbcTemplate.update(updateQuery, resultList.get(i).get("id").toString());
+				jdbcTemplate.update("update messages m set m.message_count=0 where m.username=? and m.to_username=?",username,tousername);
+			}
+			return resultList;
+	} catch (Exception e) {
+	}
+	return null;
+	}
+	public void updateMessageCount(String id,String fromUsername,String toUsername) {
+		try {
+			  String query =
+			  "update messages m set m.message_count=(m.message_count+1) where m.username=? and m.to_username=?"
+			  ; jdbcTemplate.update(query, toUsername,fromUsername);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
  
 	 
 }
